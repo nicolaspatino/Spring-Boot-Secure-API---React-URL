@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Santiago Carrillo
@@ -41,25 +42,37 @@ public class UserServiceImpl
     @Override
     public User getUser( Long id )
     {
-        return users.get( 0 );
+        Optional<User> userFound = users.stream()
+                .filter(user -> user.getId() == id)
+                .findFirst();
+
+        return userFound.get();
+
     }
 
     @Override
     public User createUser( User user )
     {
-        return users.get( 0 );
+        users.add(user);
+        return user;
     }
 
     @Override
     public User findUserByEmail( String email )
     {
-        return users.get( 0 );
+        Optional<User> userFound = users.stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findFirst();
+        return userFound.get();
     }
 
     @Override
     public User findUserByEmailAndPassword( String email, String password )
     {
-        return users.get( 0 );
+        Optional<User> userFound = users.stream()
+                .filter(user -> user.getEmail().equals(email) && user.getPassword().equals(password))
+                .findFirst();
+        return userFound.get();
     }
 
 }

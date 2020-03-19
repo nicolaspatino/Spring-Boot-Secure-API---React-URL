@@ -5,6 +5,7 @@ import com.eci.cosw.springbootsecureapi.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping( "user" )
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController
 {
 
@@ -36,12 +38,10 @@ public class UserController
         {
             throw new ServletException( "Please fill in username and password" );
         }
-
         String username = login.getUsername();
         String password = login.getPassword();
-
         //TODO implement logic to verify user credentials
-        User user = userService.getUser( 0l );
+        User user = userService.findUserByEmail(username);
 
         if ( user == null )
         {
